@@ -1,4 +1,4 @@
-# web-ui-test-framework-py
+# web-ui-test-framework-py by Alysha Kester-Terry https://github.com/alyshakt
 
 A Python based Web UI test automation framework using an object-oriented design. Just the bare bones.
 
