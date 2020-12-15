@@ -31,7 +31,7 @@ def test_search_google(record_xml_attribute):
 		search_term = 'Lloyd Miller at the Ends of the World'
 		# Enter text into the search input field
 		search_page.enter_text(GoogleSearchPageLocators.SEARCH_INPUT,
-		                       search_term + 'Lloyd Miller at the Ends of the World \n')
+							   search_term + 'Lloyd Miller at the Ends of the World \n')
 		screenshots.take_screenshot(driver, 'step2')
 		# Get a results list and iterate through it looking for your search terms
 		list_text_results = search_page.get_results_list()

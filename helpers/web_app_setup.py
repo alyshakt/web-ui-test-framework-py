@@ -5,7 +5,7 @@ def get_app_url(Search_Engine_type):
 		Search_Engine_type.yandex: 'http://yandex.com'
 	}
 	print(switcher.get(Search_Engine_type,
-	                   'Invalid search engine, or not yet implemented. Valid types are: Google, Bing or Yandex.'))
+					   'Invalid search engine, or not yet implemented. Valid types are: Google, Bing or Yandex.'))
 	return switcher.get(Search_Engine_type)
 
 

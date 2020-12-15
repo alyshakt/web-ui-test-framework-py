@@ -4,8 +4,8 @@ A Python based Web UI test automation framework using an object-oriented design.
 
 Run `pip install -r requirements.txt` on the directory to install dependencies
 
-This project uses Selenium https://www.selenium.dev/ and Chrome. 
--If you already have Chrome on your machine, you don't need to do anything special to use it.
+This project uses Selenium https://www.selenium.dev/ and Chrome. -If you already have Chrome on your machine, you don't
+need to do anything special to use it.
 
 I built this project to be able to run using pytest https://docs.pytest.org
 To run all tests, simply run `pytest tests -s` in the command line.

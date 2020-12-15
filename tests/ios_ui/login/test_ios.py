@@ -1,8 +1,8 @@
 import pytest
 
+from app_page_objects import ios_pages
 from helpers import screenshots, appium_app_setup
 from helpers.PlatformType import PlatformType
-from app_page_objects import ios_pages
 
 
 def test_ios_login(record_xml_attribute):
@@ -14,7 +14,7 @@ def test_ios_login(record_xml_attribute):
 
 	# Define the Platform Type and the page object
 	driver = appium_app_setup.get_appium_driver(PlatformType.ios,
-	                                            '/Users/akesterterry/Library/Developer/Xcode/DerivedData/DXCDCaribe-btkwbovgtxxexeadalamhzeyuyrt/Build/Products/Debug-iphonesimulator/Dev - Merchant.app')
+												'/Users/akesterterry/Library/Developer/Xcode/DerivedData/DXCDCaribe-btkwbovgtxxexeadalamhzeyuyrt/Build/Products/Debug-iphonesimulator/Dev - Merchant.app')
 	login_page = ios_pages.IosLoginPage(driver)
 
 	# I recommend beginning with a try-catch-finally format
