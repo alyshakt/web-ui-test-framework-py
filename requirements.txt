@@ -1,0 +1,13 @@
+ecdsa
+ulid
+google
+requests
+datetime
+pyjwt
+pytest
+pytest-rerunfailures
+pylint
+uuid
+pytest-xdist
+pytest-timeout
+selenium
