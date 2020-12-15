@@ -10,7 +10,7 @@ Find screenshots in test-reports/screenshots
 I use the `record_xml_attribute` in my tests because I want useable xml reporting output to integrate with XRay importing capabilities with Jira. 
 It is not necessary to use it if you do not care for that output in your xml document.
 
-To Run Headless with Chrome:
+To Run Headless with Chrome, open your test with the following code:
 ```
 	options = Options()
 	options.add_argument('--headless')
