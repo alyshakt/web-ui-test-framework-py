@@ -1,4 +1,4 @@
-from app_page_objects.ios_objects.ios_locators import IosConsumerLoginLocators
+from app_page_objects.ios_locators import IosConsumerLoginLocators
 
 """Created December 15th, 2020 by Alysha Kester-Terry https://github.com/alyshakt
 """

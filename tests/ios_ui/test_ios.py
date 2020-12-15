@@ -1,9 +1,6 @@
 import pytest
-
+from helpers import screenshots, appium_app_setup, PlatformType
 from app_page_objects import ios_pages
-from helpers import screenshots, appium_app_setup
-from helpers.PlatformType import PlatformType
-
 
 def test_ios_login(record_xml_attribute):
 	"""Created December 15th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""

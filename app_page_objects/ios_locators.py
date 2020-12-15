@@ -6,10 +6,9 @@
 
 
 class BasePageLocators(object):
-	"""Base Page Locators - Elements on EVERY page"""
-	SIGNUP_LINK = ('By.NAME', 'Sign Up')
+    SIGNUP_LINK = ('By.NAME', 'Sign Up')
 
 
 class IosConsumerLoginLocators(object):
-	"""iOS App Login Page Locators"""
-	USERNAME_FIELD = ('By.NAME', 'Username')
+    """iOS App Login Page Locators"""
+    USERNAME_FIELD = ('By.NAME', 'Username')
