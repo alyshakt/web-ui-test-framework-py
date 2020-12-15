@@ -2,10 +2,10 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from ui_pages.example_web_app import example_pages
-from ui_pages.example_web_app.example_locators import GoogleSearchPageLocators
-from ui_setup import web_app_setup, screenshots
-from ui_setup.SearchEngineType import SearchEngineType
+from helpers import web_app_setup, screenshots
+from helpers.SearchEngineType import SearchEngineType
+from page_objects.google_search import example_pages
+from page_objects.google_search.example_locators import GoogleSearchPageLocators
 
 
 def test_search_google_news(record_xml_attribute):

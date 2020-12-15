@@ -1,8 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from ui_pages.example_web_app.example_locators import BasePageLocators, \
-	GoogleSearchPageLocators
+from page_objects.google_search.example_locators import GoogleSearchPageLocators
 
 
 class BasePage(object):
@@ -24,17 +23,6 @@ class BasePage(object):
 		element = self.driver.find_element(*by_locator)
 		element.clear()
 		element.send_keys(text_to_enter)
-
-	def click_menu_item(self, text_to_match):
-		elements = self.driver.find_elements(*BasePageLocators.MENU_ITEMS)
-		menu_item = None
-		for element in elements:
-			print(element.text)
-			if text_to_match.lower() in element.text.lower():
-				print('Found {} in the menu item list'.format(text_to_match))
-				menu_item = element
-				break
-		menu_item.click()
 
 	def get_element_text(self, by_locator):
 		self.wait_for_element_visibility(by_locator)
