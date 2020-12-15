@@ -1,7 +1,7 @@
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from page_objects.google_search.example_locators import GoogleSearchPageLocators
+from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
 """Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt
 """
 

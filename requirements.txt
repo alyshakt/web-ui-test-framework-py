@@ -11,3 +11,4 @@ uuid
 pytest-xdist
 pytest-timeout
 selenium
+Appium-Python-Client

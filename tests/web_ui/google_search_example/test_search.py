@@ -4,11 +4,11 @@ from selenium.webdriver.chrome.options import Options
 
 from helpers import web_app_setup, screenshots
 from helpers.SearchEngineType import SearchEngineType
-from page_objects.google_search import example_pages
-from page_objects.google_search.example_locators import GoogleSearchPageLocators
+from web_page_objects.google_search import example_pages
+from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
 
 
-def test_search_google_news(record_xml_attribute):
+def test_search_google(record_xml_attribute):
 	"""Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""
 	record_xml_attribute(
 		"name",
