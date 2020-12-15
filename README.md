@@ -31,3 +31,5 @@ URL for the Enum and pass it on to navigate to that URL.
 Screenshots are automatically named by the created date and saved in PNG format, with the option to add a name to append
 to the date.
 
+This Base Page object strategy was gleaned with much gratitude from
+http://elementalselenium.com/tips/9-use-a-base-page-object
