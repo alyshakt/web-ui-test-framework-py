@@ -1,6 +1,3 @@
-from appium import webdriver
-
-
 def get_app_type(PlatformType):
 	switcher = {
 		PlatformType.ios: 'iOS',
@@ -12,7 +9,8 @@ def get_app_type(PlatformType):
 
 def get_desired_caps(PlatformType, app_path):
 	desired_caps = {}
-	if PlatformType.ios:
+	apptype = get_app_type(PlatformType)
+	if apptype == PlatformType.ios:
 		desired_caps = dict(
 			platformName=PlatformType.ios,
 			platformVersion='13.4',
@@ -20,7 +18,7 @@ def get_desired_caps(PlatformType, app_path):
 			deviceName='iPhone Simulator',
 			app=app_path
 		)
-		if PlatformType.android:
+		if apptype == PlatformType.android:
 			desired_caps = dict(
 				platformName='Android',
 				platformVersion='10',

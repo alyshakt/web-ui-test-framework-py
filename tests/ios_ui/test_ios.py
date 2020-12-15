@@ -1,17 +1,21 @@
 import pytest
-from helpers import screenshots, appium_app_setup, PlatformType
-from app_page_objects import ios_pages
+from appium import webdriver
+
+from helpers import screenshots, appium_setup
+from helpers.PlatformType import PlatformType
+from appium import ios_pages
+
 
 def test_ios_login(record_xml_attribute):
 	"""Created December 15th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""
 	record_xml_attribute(
 		"name",
 		"Example iOS Appium Python Test")
-	# Setup Driver, define options
-
-	# Define the Platform Type and the page object
-	driver = appium_app_setup.get_appium_driver(PlatformType.ios,
-												'/Users/akesterterry/Library/Developer/Xcode/DerivedData/DXCDCaribe-btkwbovgtxxexeadalamhzeyuyrt/Build/Products/Debug-iphonesimulator/Dev - Merchant.app')
+	# Setup Driver, define Platform Type and the page object
+	apptype = PlatformType.ios
+	desired_caps = appium_setup.get_desired_caps(apptype,
+													 '/Users/akesterterry/Library/Developer/Xcode/DerivedData/DXCDCaribe-btkwbovgtxxexeadalamhzeyuyrt/Build/Products/Debug-iphonesimulator/Dev - Merchant.app')
+	driver = webdriver.Remote('http://localhost:4723/wd/hub', desired_caps)
 	login_page = ios_pages.IosLoginPage(driver)
 
 	# I recommend beginning with a try-catch-finally format
