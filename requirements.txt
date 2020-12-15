@@ -10,3 +10,4 @@ pylint
 uuid
 pytest-xdist
 pytest-timeout
+selenium
