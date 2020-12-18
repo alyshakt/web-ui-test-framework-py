@@ -2,8 +2,8 @@ import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
-from helpers import web_app_setup, screenshots
-from helpers.SearchEngineType import SearchEngineType
+from setup_helpers import screenshots, web_app_setup
+from setup_helpers.SearchEngineType import SearchEngineType
 from web_page_objects.google_search import example_pages
 from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
 
