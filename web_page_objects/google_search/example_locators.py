@@ -1,10 +1,9 @@
-from selenium.webdriver.common.by import By
-
 """Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt
-
-    This Base Page object locator strategy was gleaned with much gratitude from 
+    This Base Page object locator strategy was gleaned with much gratitude from
     http://elementalselenium.com/tips/9-use-a-base-page-object
 """
+
+from selenium.webdriver.common.by import By
 
 
 class BasePageLocators(object):

@@ -1,3 +1,5 @@
+"""Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""
+
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -9,10 +11,11 @@ from web_page_objects.google_search.example_locators import GoogleSearchPageLoca
 
 
 def test_search_google(record_xml_attribute):
-	"""Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""
+	"""Example test for using a search engine to look up a phrase and verify
+	that one part of the phrase exists in all top results
+	"""
 	record_xml_attribute(
-		"name",
-		"Example Web UI Python Test: Search Google for a term and verify results contain search terms.")
+		'name', 'Example Web UI Python Test: Search Google for a term and verify results contain search terms.')
 	# Setup Driver, define options
 	options = Options()
 	options.add_argument('--headless')
@@ -31,7 +34,7 @@ def test_search_google(record_xml_attribute):
 		search_term = 'Lloyd Miller at the Ends of the World'
 		# Enter text into the search input field
 		search_page.enter_text(GoogleSearchPageLocators.SEARCH_INPUT,
-							   search_term + 'Lloyd Miller at the Ends of the World \n')
+		                       search_term + 'Lloyd Miller at the Ends of the World \n')
 		screenshots.take_screenshot(driver, 'step2')
 		# Get a results list and iterate through it looking for your search terms
 		list_text_results = search_page.get_results_list()
@@ -42,9 +45,9 @@ def test_search_google(record_xml_attribute):
 			result_text = result.lower()
 			print('This result says: {}'.format(result_text))
 			assert 'lloyd miller' in result_text
-	except AssertionError as e:
+	except AssertionError as failure:
 		# If any assertions above fail, then mark the test as failed and capture a screenshot
-		pytest.fail('The test failed. {}'.format(e), True)
+		pytest.fail('The test failed. {}'.format(failure), True)
 		screenshots.take_screenshot(driver, 'Failed')
 	finally:
 		# Finally, quit the webdriver!
