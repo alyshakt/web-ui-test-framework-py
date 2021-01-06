@@ -1,5 +1,6 @@
 """Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt
 """
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
@@ -13,7 +14,7 @@ class BasePage(object):
 		self.driver = driver
 
 	# Expected Conditions
-	def wait_for_element_visibility(self, by_locator, timeout=10):
+	def wait_for_element_visibility(self, by_locator, timeout=45):
 		"""Wait for an element to be visible"""
 		WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(by_locator))
 
