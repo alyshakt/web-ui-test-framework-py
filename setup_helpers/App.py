@@ -2,7 +2,7 @@
 import enum
 
 
-class SearchEngineType(enum.Enum):
+class App(enum.Enum):
 	"""To standardize the search engine input"""
 	google = 1
 	bing = 2

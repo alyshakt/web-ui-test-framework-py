@@ -1,56 +1,59 @@
 """Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt"""
+import logging
 
-import pytest
-from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 
-from setup_helpers import screenshots, web_app_setup
-from setup_helpers.SearchEngineType import SearchEngineType
+from setup_helpers import BrowserSetup
+from setup_helpers.App import App
+from setup_helpers.AppSetup import navigate_to_search_engine
 from web_page_objects.google_search import example_pages
-from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
+
+# Define the App Type
+app = App.google
+test_num = 'Test Number'
 
 
-def test_search_google(record_xml_attribute):
-	"""Example test for using a search engine to look up a phrase and verify
-	that one part of the phrase exists in all top results
-	"""
-	record_xml_attribute(
-		'name', 'Example Web UI Python Test: Search Google for a term and verify results contain search terms.')
-	# Setup Driver, define options
-	options = FirefoxOptions()
-	options.add_argument('-headless')
-	options.add_argument("-window-size=1366,768")
-	driver = webdriver.Firefox(options=options)
+def test_search_google(environment, browser, headless, record_xml_attribute):
+    """Example test for using a search engine to look up a phrase and verify
+    that one part of the phrase exists in all top results
+    """
+    record_xml_attribute(
+        'name', 'Example Web UI Python Test: Search Google for a term and verify results contain search terms.')
 
-	# Define the SearchEngineType and the page object
-	web_app_setup.navigate_to_search_engine(driver, SearchEngineType.google)
-	search_page = example_pages.GoogleSearchPage(driver)
+    # define your driver
+    driver = BrowserSetup.get_driver(browser, headless)
 
-	# I recommend beginning with a try-catch-finally format
-	try:
-		# Expect some lag time for a page to load
-		search_page.wait_for_load_complete()
-		# Take a screenshot
-		screenshots.take_screenshot(driver, 'step1')
-		search_term = 'Lloyd Miller at the Ends of the World'
-		# Enter text into the search input field
-		search_page.enter_text(GoogleSearchPageLocators.SEARCH_INPUT, search_term+Keys.RETURN)
-		screenshots.take_screenshot(driver, 'step2')
-		# Get a results list and iterate through it looking for your search terms
-		list_text_results = search_page.get_results_list()
-		result_count = len(list_text_results)
-		print('There are {}'.format(result_count) + ' results found.')
-		screenshots.take_screenshot(driver, 'step3')
-		assert result_count > 0
-		for result in list_text_results:
-			result_text = result.lower()
-			print('This result says: {}'.format(result_text))
-			assert 'lloyd miller' in result_text
-	except AssertionError as failure:
-		# If any assertions above fail, then mark the test as failed and capture a screenshot
-		pytest.fail('The test failed. {}'.format(failure), True)
-		screenshots.take_screenshot(driver, 'Failed')
-	finally:
-		# Finally, quit the webdriver!
-		driver.quit()
+    # define your page objects
+    base_page = example_pages.BasePage(driver)
+    search_page = example_pages.GoogleSearchPage(driver)
+
+    # Set up test failure capture:
+    fails = list()
+    fail_text = None
+    try:
+        navigate_to_search_engine(driver=driver, app=app, environment=environment)
+        # Expect some lag time for a page to load
+        assert search_page.wait_for_load_complete()
+        # Take a screenshot
+        base_page.screenshot(environment, 'Search Page')
+        search_term = 'Lloyd Miller at the Ends of the World'
+        # Enter text into the search input field
+        search_page.enter_search_text(search_term + Keys.RETURN)
+        logging.info(msg='Entering search term: {}'.format(search_term))
+        base_page.screenshot(environment, 'Search Term')
+        # Get a results list and iterate through it looking for your search terms
+        list_text_results = search_page.get_results_list()
+        logging.info(msg='The results list is: {}'.format(list_text_results))
+        result_count = len(list_text_results)
+        print('There are {}'.format(result_count) + ' results found.')
+        base_page.screenshot(environment, 'Results')
+        assert result_count > 0
+        for result in list_text_results:
+            result_text = result.lower()
+            print('This result says: {}'.format(result_text))
+            assert 'lloyd miller' in result_text
+    except (AssertionError, Exception, BaseException) as failure:
+        fail_text = base_page.prep_failures(fails, exception_error=str(failure))
+        logging.warning(msg='There was a failure: {}'.format(fail_text))
+    finally:
+        base_page.tear_down(environment, failure=fail_text, test_number=test_num)
