@@ -3,9 +3,9 @@ import logging
 
 from selenium.webdriver.common.keys import Keys
 
-from setup_helpers import BrowserSetup
-from setup_helpers.App import App
-from setup_helpers.AppSetup import navigate_to_search_engine
+from env_setup import BrowserSetup
+from env_setup.App import App
+from env_setup.AppSetup import navigate_to_search_engine
 from web_page_objects.google_search import example_pages
 
 # Define the App Type

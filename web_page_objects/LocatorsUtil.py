@@ -13,7 +13,7 @@ default_wait = 45
 
 def wait_for_seconds(seconds_to_wait=5):
     """Hard sleep if absolutely needed. Defaults to 5 seconds"""
-    logging.info('Waiting for {} seconds...'.format(seconds_to_wait))
+    logging.debug('Waiting for {} seconds...'.format(seconds_to_wait))
     time.sleep(seconds_to_wait)
 
 
@@ -294,7 +294,8 @@ def select_from_dropdown(driver, drpdwn_id, optionparent_id, options_classname, 
     for item in drpdwn_ops:
         option_text = item.text
         logging.debug(
-            msg='There are {} options in the list. Option {}: {}'.format(len(drpdwn_ops), drpdwn_ops.index(item),option_text))
+            msg='There are {} options in the list. Option {}: {}'.format(len(drpdwn_ops), drpdwn_ops.index(item),
+                                                                         option_text))
         if list_option.lower() == option_text.lower():
             logging.debug(msg='Found option: {} for {}'.format(option_text, drpdwn_id))
             item.click()
