@@ -14,3 +14,10 @@ XlsxWriter
 flake8
 requests
 pytest-cov
+metabase-api
+google-api-python-client
+python-gflags
+httplib2
+oauth2client
+uritemplate
+google_auth_oauthlib
