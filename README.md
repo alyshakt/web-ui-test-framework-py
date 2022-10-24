@@ -1,6 +1,6 @@
 # web-ui-test-framework-py by Alysha Kester-Terry https://github.com/alyshakt
 
-A Python based test client for web UI and backend crossfunctional testing.
+A Python based test client for web UI and backend cross-functional testing.
 
 Use
 ===
