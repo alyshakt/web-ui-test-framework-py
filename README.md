@@ -18,6 +18,10 @@ Use
 
 -Run  `brew update`
 
+-Install Python 3.9 or later
+
+-Install latest Chrome and Firefox
+
 -Run `pip3 install -r requirements.txt` on the directory to install dependencies. -This project uses
 Selenium https://www.selenium.dev/ and Chrome or Firefox. -If you already have Chrome or Firefox on your machine, you
 don't need to do anything special to use it.
