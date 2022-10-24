@@ -7,11 +7,11 @@ def pytest_addoption(parser):
     """Arguments allowed to pass through on run"""
     parser.addoption("--environment",
                      action="store",
-                     default="test",
+                     default="stage",
                      help="Environment to run tests in")
     parser.addoption("--browser",
                      action="store",
-                     default="firefox",
+                     default="chrome",
                      help="Browser to run tests in")
     parser.addoption("--headless",
                      action="store",
@@ -42,6 +42,12 @@ def get_timeout_timestamp(seconds_to_wait: int = None):
         seconds_to_wait = max_wait_time_seconds()
     total_wait = time.perf_counter() + seconds_to_wait
     return total_wait
+
+
+def wait_for_seconds(seconds_to_wait=5):
+    """Hard sleep if absolutely needed. Defaults to 5 seconds"""
+    logging.info('Waiting for {} seconds...'.format(seconds_to_wait))
+    time.sleep(seconds_to_wait)
 
 
 def max_wait_time_seconds(seconds_to_wait=45):
