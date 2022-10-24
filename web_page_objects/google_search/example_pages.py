@@ -151,10 +151,9 @@ class GoogleSearchPage(BasePage):
 
     def get_results_list(self):
         """Get a list of all the results"""
-        if GoogleSearchPageLocators.results_section(self):
-            options = GoogleSearchPageLocators.results_text(self)
-            results_list = list()
-            for option in options:
-                option_text = self.get_element_text(option)
-                results_list.append(option_text)
-            return results_list
+        options = GoogleSearchPageLocators.results_text(self)
+        results_list = list()
+        for option in options:
+            option_text = self.get_element_text(option)
+            results_list.append(option_text)
+        return results_list
