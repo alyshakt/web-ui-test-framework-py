@@ -34,7 +34,7 @@ We also need to know if anything is not right, such as prices or medication name
 
 3. Existing patients need to call us at (516) 505-7201 or email support@mindful.care to schedule an appointment.
 
-4. There should be a FAQ that describes that cancelation within 24 hours of the appointment or a no-show results in a
+4. There should be a FAQ that describes that cancellation within 24 hours of the appointment or a no-show results in a
    $25 fee.
 
 PROJECT DELIVERABLES

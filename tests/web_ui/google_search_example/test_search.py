@@ -57,3 +57,7 @@ def test_search_google(environment, browser, headless, record_xml_attribute):
         logging.warning(msg='There was a failure: {}'.format(fail_text))
     finally:
         base_page.tear_down(environment, failure=fail_text, test_number=test_num)
+
+
+
+
