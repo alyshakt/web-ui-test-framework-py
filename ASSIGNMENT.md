@@ -13,7 +13,7 @@ VCS function. Be sure to look through the README to set up the project appropria
 PROJECT REQUEST
 ---------------
 
-I'd like to see a new App added to this repository to test Mindful Care. Mindful Care has two environments:
+I'd like to see a new App enum added to this repository to test Mindful Care. Mindful Care has two environments:
 
 1. Stage = <https://app-40572.on-aptible.com/>
 
