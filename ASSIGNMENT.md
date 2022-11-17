@@ -7,9 +7,10 @@ You don't have to complete all 3 steps, but I would expect that this shouldn't t
 
 GETTING STARTED
 ---------------
-
-Find the starter repo at <https://github.com/alyshakt/web-ui-test-framework-py> and clone the project through IntelliJ's
-VCS function. Be sure to look through the README to set up the project appropriately.
+IMPORTANT: Start by following all the steps in the README https://github.com/alyshakt/web-ui-test-framework-py/blob/main/README.md 
+Find the starter repo at <https://github.com/alyshakt/web-ui-test-framework-py> 
+Clone the project through IntelliJ's VCS function. 
+!!!Be sure to look through the README to set up the project appropriately.!!!
 
 PROJECT REQUEST
 ---------------
