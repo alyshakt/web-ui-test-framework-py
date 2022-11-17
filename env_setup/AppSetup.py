@@ -8,13 +8,12 @@ import logging
 def get_app_url(App, environment='stage'):
     """To define the search engine URL by type given"""
     # TODO define your different environments and how you'd want them to switch
-
+    # TODO add the environment into the URLs as vars here to return the appropriate URL for the environment
     if 'stag' in environment:
         env = 'stage'
     else:
         env = 'prod'
     switcher = {
-        # TODO add the environment into the URLs as vars here to match the App enum
         App.google: 'https://google.com',
         App.bing: 'https://bing.com',
         App.yandex: 'http://yandex.com'
@@ -25,7 +24,7 @@ def get_app_url(App, environment='stage'):
     return env_url
 
 
-def navigate_to_search_engine(driver, app, environment='test'):
+def navigate_to_environment(driver, app, environment='stage'):
     """To navigate to the appropriate URL
     :param app: Web app to hit
     :param driver: The webdriver
