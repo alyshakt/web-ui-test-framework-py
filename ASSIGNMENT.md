@@ -16,7 +16,7 @@ A Pull Request at <https://github.com/alyshakt/web-ui-test-framework-py> that ha
 3. Test(s) in the `tests/` directory that tests the requirements (Step 3)
 
 4. Test output in the `test-reports/` directory; I should see screenshots and logging output in your test results. (Step
-   3)
+    3)
 
 GETTING STARTED
 ---------------
