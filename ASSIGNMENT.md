@@ -15,7 +15,8 @@ A Pull Request at <https://github.com/alyshakt/web-ui-test-framework-py> that ha
 
 3. Test(s) in the `tests/` directory that tests the requirements (Step 3)
 
-4. Test output in the `test-reports/` directory (Step 3)
+4. Test output in the `test-reports/` directory; I should see screenshots and logging output in your test results. (Step
+   3)
 
 GETTING STARTED
 ---------------
@@ -67,3 +68,5 @@ We want to find out if the following requirements are met for the FAQs page at `
 2. In that section, we want to make sure that we say "We do not prescribe any controlled substances"
 3. There should be a FAQ that describes that cancelation within 24 hours of the appointment or a no-show results in a
    $25 fee.
+
+I should see screenshots and logging output in your test results.
