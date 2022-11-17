@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+    <testsuite name="example-ui-framework" errors="0" failures="0" skipped="0" tests="7" time="6.656"
+               timestamp="2022-10-24T12:55:53.766893" hostname="alyshas-mbp.lan">
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_decimal_to_string"
+                  file="tests/test_code_coverage.py" line="7" time="0.001"/>
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_random_num_gen"
+                  file="tests/test_code_coverage.py" line="29" time="0.001"/>
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_random_price_gen"
+                  file="tests/test_code_coverage.py" line="46" time="0.001"/>
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_random_string_gen"
+                  file="tests/test_code_coverage.py" line="37" time="0.444"/>
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_string_to_decimal"
+                  file="tests/test_code_coverage.py" line="15" time="0.001"/>
+        <testcase classname="tests.test_code_coverage.TestAmountMethods" name="test_string_to_float"
+                  file="tests/test_code_coverage.py" line="23" time="0.001"/>
+        <testcase classname="tests.web_ui.google_search_example.test_search"
+                  name="Example Web UI Python Test: Search Google for a term and verify results contain search terms."
+                  file="tests/web_ui/google_search_example/test_search.py" line="15" time="6.043"/>
+    </testsuite>
+</testsuites>

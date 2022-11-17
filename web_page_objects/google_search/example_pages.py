@@ -1,11 +1,19 @@
 """Created October 17th, 2020 by Alysha Kester-Terry https://github.com/alyshakt
 """
+
 import logging
+import time
 
 import pytest
+from selenium.common.exceptions import TimeoutException, NoAlertPresentException
 from selenium.webdriver import ActionChains
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
+from tests import conftest
 from web_page_objects import screenshot_util, LocatorsUtil
+from web_page_objects.LocatorsUtil import BaseLocators
 from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
 
 
@@ -24,21 +32,49 @@ class BasePage(object):
         element.clear()
         element.send_keys(text_to_enter)
 
+    def get_value(self, element):
+        return element.get_attribute('value')
+
     def get_element_text(self, element):
         """Get an element's text"""
         return_text = element.text
         logging.debug('Element text: {}'.format(return_text))
         return return_text
 
+    def navigate_to(self, url):
+        self.driver.get(url)
+
+    def get_current_url(self):
+        current_url = self.driver.current_url
+        logging.info(msg='The current URL: {}'.format(current_url))
+        return current_url
+
+    def select_from_dropdown(self, dropdown, option):
+        """Select an option from a dropdown"""
+        self.click_element(dropdown)
+        options = BaseLocators.nested_elements_by_css(self, dropdown, 'option')
+        exists = False
+        for opt in options:
+            opttext = opt.text
+            if option.lower() in opttext.lower():
+                exists = True
+                self.click_element(opt)
+                break
+        if not exists:
+            logging.warning(msg='No option was found for {}.')
+
     def scroll_to_element(self, element):
         """Click an element by a defined locator"""
         coordinates = element.location_once_scrolled_into_view  # returns dict of X, Y coordinates
         self.driver.execute_script('window.scrollTo({}, {});'.format(
             coordinates['x'], coordinates['y']))
-        self.wait_for_seconds(3)
+        self.wait_for_seconds(2)
 
     def scroll_down_page(self):
         self.driver.execute_script('window.scrollBy(0,350)')
+
+    def scroll_up_page(self):
+        self.driver.execute_script('window.scrollBy(0,-350)')
 
     def get_tabs(self):
         logging.debug(msg="Parent window title: " + self.driver.title)
@@ -46,9 +82,6 @@ class BasePage(object):
         parent_handle = self.driver.current_window_handle
         child_handles = None
         try:
-            # from https://www.browserstack.com/guide/how-to-switch-tabs-in-selenium-python
-
-            # get first child window
             child_handles = self.driver.window_handles
         except (BaseException, Exception) as n:
             logging.debug('An exception occurred: {}'.format(n), True)
@@ -98,14 +131,34 @@ class BasePage(object):
     def wait_for_seconds(self, secs):
         LocatorsUtil.wait_for_seconds(secs)
 
+    def wait_for_loading_spinner(self):
+        timeout = conftest.get_timeout_timestamp(20)
+        while bool(LocatorsUtil.get_single_element(self.driver, findby=By.CLASS_NAME,
+                                                   identifier='dxlp-loadingImage')) and time.perf_counter() < timeout:
+            self.wait_for_seconds(2)
+            logging.debug(msg='Element was still found. Waiting...')
+            self.wait_for_seconds(2)
+
     def refresh_screen(self):
         self.driver.refresh()
+
+    def accept_alert(self):
+        try:
+            WebDriverWait(self.driver,
+                          2).until(EC.alert_is_present(),
+                                   'Timed out waiting for popup to appear.')
+
+            alert = self.driver.switch_to.alert
+            alert.accept()
+            logging.debug(msg="Alert accepted")
+        except (NoAlertPresentException, TimeoutException):
+            logging.debug(msg='No alert was found.')
 
     def take_pass_fail_screenshots(self, environment, failure, test_name=None):
         logging.info(msg='Failures if any: {}'.format(str(failure)))
         if failure is not None:
-            self.screenshot(environment, '{} FAILED'.format(test_name))
-            logging.debug(
+            self.screenshot(environment, '{}FAILED'.format(test_name))
+            logging.info(
                 msg='The workflow failures if any are: {}'.format(failure),
                 exc_info=True)
         else:
@@ -137,6 +190,14 @@ class BasePage(object):
                                     '%(message)s')
                             )
 
+    def __prep_url(self):
+        current_url = self.driver.current_url
+        logging.debug('The current URL: {}'.format(current_url))
+        base_url = current_url.split(".com/")
+        base_prepped = '{}.com/'.format(base_url[0])
+        logging.debug('The base URL is: {}'.format(base_prepped))
+        return base_prepped
+
 
 class GoogleSearchPage(BasePage):
     """Main Search Page Action Methods"""
@@ -151,7 +212,7 @@ class GoogleSearchPage(BasePage):
 
     def get_results_list(self):
         """Get a list of all the results"""
-        options = GoogleSearchPageLocators.results_text(self)
+        options = GoogleSearchPageLocators.results_text_list(self)
         results_list = list()
         for option in options:
             option_text = self.get_element_text(option)
