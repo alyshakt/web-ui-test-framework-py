@@ -101,7 +101,7 @@ line or, Using IntelliJ's pytest runner, you can run tests. Find the runner unde
 -Note that the test runner is configured to run using the Python interpreter of the project, so you will need to define
 your python interpreter for your project, or change the runner to refer to another interpreter.
 
--You must define an *environment* variable when running like `--environment='dev' or --environment='stage'`
+-You must define an *environment* variable when running like `--environment='stage' or --environment='prod'`
 
 -You must define a *browser* variable when running like `--browser='chrome' or --browser='firefox'`
 

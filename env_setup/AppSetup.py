@@ -9,12 +9,12 @@ def get_app_url(App, environment='stage'):
     """To define the search engine URL by type given"""
     # TODO define your different environments and how you'd want them to switch
 
-    if 'test' in environment:
+    if 'stag' in environment:
         env = 'stage'
     else:
         env = 'prod'
     switcher = {
-        # TODO you can add the environment into the URLs as vars here if needed
+        # TODO add the environment into the URLs as vars here to match the App enum
         App.google: 'https://google.com',
         App.bing: 'https://bing.com',
         App.yandex: 'http://yandex.com'
