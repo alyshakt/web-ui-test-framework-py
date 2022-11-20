@@ -8,20 +8,25 @@ import logging
 def get_app_url(App, environment='stage'):
     """To define the search engine URL by type given"""
     # TODO define your different environments and how you'd want them to switch
-
+    mindful = ''
     if 'test' in environment:
         env = 'stage'
+        mindful = 'https://app-40572.on-aptible.com'
     else:
         env = 'prod'
+        mindful = 'https://mindful.care'
+
     switcher = {
         # TODO you can add the environment into the URLs as vars here if needed
         App.google: 'https://google.com',
         App.bing: 'https://bing.com',
-        App.yandex: 'http://yandex.com'
+        App.yandex: 'http://yandex.com',
+        App.mindful_care: mindful
     }
     app_type = switcher.get(App, 'Invalid environment option, or not yet implemented')
     env_url = app_type
     logging.debug(msg='The environment url is: {}'.format(env_url))
+    logging.info(msg='The URL is: {}'.format(env_url))
     return env_url
 
 

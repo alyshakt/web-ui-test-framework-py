@@ -6,7 +6,7 @@ import pytest
 from selenium.webdriver import ActionChains
 
 from web_page_objects import screenshot_util, LocatorsUtil
-from web_page_objects.google_search.example_locators import GoogleSearchPageLocators
+from web_page_objects.google_search.example_locators import GoogleSearchPageLocators, MindfulCaresPageLocators
 
 
 class BasePage(object):
@@ -157,3 +157,44 @@ class GoogleSearchPage(BasePage):
             option_text = self.get_element_text(option)
             results_list.append(option_text)
         return results_list
+
+
+class MindfulCaresHomePage(BasePage):
+    """Home page Mindful Cares Action Methods"""
+    def wait_for_load_complete(self):
+        """Wait until the page is loaded"""
+        return bool(MindfulCaresPageLocators.get_started_link(self))
+
+
+    def click_FAQ_link(self):
+        """Click on FAQ to open questions and answers"""
+        el = MindfulCaresPageLocators.search_FAQ_link(self)
+        self.click_element(el)
+        return
+
+    def get_questions_and_answers(self):
+        """Get all questions and answers"""
+        questions_and_answers_list = list()
+        list_of_qa = MindfulCaresPageLocators.get_qa_elements(self)
+        logging.debug(msg='Elements found: {}'.format(len(list_of_qa)))
+        for i in range(len(list_of_qa)):
+            qa = list_of_qa[i]
+            q = MindfulCaresPageLocators.get_question(self, qa)
+            q_text = self.get_element_text(q)
+            questions_and_answers_list.append("QUESTION " + str(i + 1) + ": " + q_text)
+            questions_and_answers_list.append("ANSWER" + str(i + 1) + ":")
+            self.click_element(q)
+            answer_list = MindfulCaresPageLocators.get_answer(self, qa)
+            for a in answer_list:
+                a_text = self.get_element_text(a)
+                questions_and_answers_list.append(a_text)
+        return questions_and_answers_list
+
+    def expand_answer(self, xpath):
+        q = MindfulCaresPageLocators.get_element_xpath(self, xpath)
+        self.click_element(q)
+        return
+
+    def get_actual_answer(self, xpath):
+        a = MindfulCaresPageLocators.get_element_xpath(self, xpath)
+        return self.get_element_text(a)

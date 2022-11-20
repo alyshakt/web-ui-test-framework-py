@@ -27,6 +27,7 @@ def get_browser_options(browser, headless):
         options.add_argument('--disable-extensions')
         if headless == 'true':
             options.add_argument('--headless')
+    logging.debug(msg='Got Browser options')
     return options
 
 
@@ -57,4 +58,5 @@ def get_driver(browser, headless):
         # Make Firefox default
         driver = Firefox(options=options)
         driver.execute_script("window.onunload = null; window.onbeforeunload=null")
+    logging.debug(msg='Got Driver')
     return driver

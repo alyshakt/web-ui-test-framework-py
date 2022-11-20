@@ -7,3 +7,4 @@ class App(enum.Enum):
 	google = 1
 	bing = 2
 	yandex = 3
+	mindful_care = 4

@@ -37,3 +37,24 @@ class GoogleSearchPageLocators(object):
 
     def results_text(self):
         return BaseLocators.elements_by_classname(self, 'g')
+
+
+class MindfulCaresPageLocators(object):
+    """MindfulCares Page Locators"""
+    def get_started_link(self):
+        return BaseLocators.element_by_id(self, 'index-page-schedule-now-link')
+
+    def search_FAQ_link(self):
+        return BaseLocators.element_by_xpath(self, '/html/body/div[1]/footer/div[3]/div[2]/div[2]/a')
+
+    def get_qa_elements(self):
+        return BaseLocators.elements_by_css(self, 'details')
+
+    def get_question(self, el):
+        return BaseLocators.nested_element_by_css(self, el, 'span')
+
+    def get_answer(self, el):
+        return BaseLocators.nested_elements_by_css(self, el, 'p')
+
+    def get_element_xpath(self, xpath):
+        return BaseLocators.element_by_xpath(self, xpath)
