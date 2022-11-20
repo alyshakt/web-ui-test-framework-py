@@ -17,7 +17,6 @@ def get_app_url(App, environment='stage'):
         mindful = 'https://mindful.care'
 
     switcher = {
-        # TODO you can add the environment into the URLs as vars here if needed
         App.google: 'https://google.com',
         App.bing: 'https://bing.com',
         App.yandex: 'http://yandex.com',
@@ -30,7 +29,7 @@ def get_app_url(App, environment='stage'):
     return env_url
 
 
-def navigate_to_search_engine(driver, app, environment='test'):
+def navigate_to_environment(driver, app, environment='stage'):
     """To navigate to the appropriate URL
     :param app: Web app to hit
     :param driver: The webdriver

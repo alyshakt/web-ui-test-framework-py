@@ -5,7 +5,7 @@ from selenium.webdriver.common.keys import Keys
 
 from env_setup import BrowserSetup
 from env_setup.App import App
-from env_setup.AppSetup import navigate_to_search_engine
+from env_setup.AppSetup import navigate_to_environment
 from web_page_objects.google_search import example_pages
 
 # Define the App Type
@@ -16,6 +16,11 @@ test_num = 'Test Number'
 def test_search_google(environment, browser, headless, record_xml_attribute):
     """Example test for using a search engine to look up a phrase and verify
     that one part of the phrase exists in all top results
+    :type browser: test argument like --browser="chrome"
+    :type environment: test argument --environment="stage"
+    :type headless: boolean test argument --headless="true"
+    :type record_xml_attribute: logs text and test title to the XML Test output (for --junitxml=test-reports/<environment>/<nameofreport>.xml)
+
     """
     record_xml_attribute(
         'name', 'Example Web UI Python Test: Search Google for a term and verify results contain search terms.')
@@ -30,8 +35,10 @@ def test_search_google(environment, browser, headless, record_xml_attribute):
     # Set up test failure capture:
     fails = list()
     fail_text = None
+
+    # always use a try-except-finally structure to capture the exceptions and tear down the browser
     try:
-        navigate_to_search_engine(driver=driver, app=app, environment=environment)
+        navigate_to_environment(driver=driver, app=app, environment=environment)
         # Expect some lag time for a page to load
         assert search_page.wait_for_load_complete()
         # Take a screenshot
@@ -53,7 +60,9 @@ def test_search_google(environment, browser, headless, record_xml_attribute):
             print('This result says: {}'.format(result_text))
             assert 'lloyd miller' in result_text
     except (AssertionError, Exception, BaseException) as failure:
+        # Always catch your exceptions so you can log them to the test output
         fail_text = base_page.prep_failures(fails, exception_error=str(failure))
         logging.warning(msg='There was a failure: {}'.format(fail_text))
     finally:
+        #finally, take pass/fail screenshots and tear down the driver
         base_page.tear_down(environment, failure=fail_text, test_number=test_num)

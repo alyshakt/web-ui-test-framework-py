@@ -12,17 +12,6 @@ class BasePageLocators(BaseLocators):
         super().__init__(driver)
         self.driver = driver
 
-    def breadcrumbs(self):
-        return BaseLocators.element_by_classname(self, 'breadcrumb', default_wait)
-
-
-class BasePageLocators(object):
-    """Base Page Locators - Elements on EVERY page"""
-
-    def example_p_element_list(self):
-        return BaseLocators.elements_by_css(self, 'p', default_wait)
-
-
 class GoogleSearchPageLocators(object):
     """Google Search Page Locators"""
 
@@ -35,7 +24,7 @@ class GoogleSearchPageLocators(object):
     def logo(self):
         return BaseLocators.element_by_id(self, 'hplogo')
 
-    def results_text(self):
+    def results_text_list(self):
         return BaseLocators.elements_by_classname(self, 'g')
 
 
