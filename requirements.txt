@@ -21,3 +21,4 @@ httplib2
 oauth2client
 uritemplate
 google_auth_oauthlib
+pyautogui
