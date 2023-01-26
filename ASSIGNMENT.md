@@ -37,11 +37,9 @@ I'd like to see a new App enum added to this repository to test Mindful Care. Mi
 2. Prod = <https://mindful.care>
 
 INFO:
-*App enum:* `env_setup/App.py`
-*App Setup:* `env_setup/AppSetup.py` to define the URL for different environment types
-*Test location*: `tests/web_ui`
-
-- (You could literally copy-paste the test that exists at `tests/web_ui/google_search_example/test_search.py` and make
+1. *App enum:* `env_setup/App.py`
+2. *App Setup:* `env_setup/AppSetup.py` to define the URL for different environment types
+3. *Test location*: `tests/web_ui`  (You could literally copy-paste the test that exists at `tests/web_ui/google_search_example/test_search.py` and make
   edits to the App type, page objects, etc.
 
 STEP 2:
@@ -51,12 +49,12 @@ I'd like to see new page objects for methods and locators for Mindful Care and t
 INFO:
 *Page Objects*: `web_page_objects`
 
-- Inherit the `BasePage` class `BasePage(object)` to take advantage of common items like clicking an element,
+1. Inherit the `BasePage` class `BasePage(object)` to take advantage of common items like clicking an element,
   getting/entering text and taking screenshots.
-
-- The Locators page can inherit the `BaseLocators` class `BasePageLocators(BaseLocators)` to enable easy use of the
+2. The Locators page can inherit the `BaseLocators` class `BasePageLocators(BaseLocators)` to enable easy use of the
   BaseLocators library (found at `web_page_objects/LocatorsUtil.py`)
-- *Hint: work smarter not harder and start with existing page objects to maintain the code style and consistency*
+  
+  *Hint: work smarter not harder and start with existing page objects to maintain the code style and consistency*
 
 STEP 3:
 -----
