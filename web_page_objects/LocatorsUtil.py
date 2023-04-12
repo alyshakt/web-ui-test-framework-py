@@ -1,6 +1,6 @@
-"""Created by Alysha Kester-Terry 05/05/2021"""
+"""Initializes the webdriver and gets webelements. This util is to make sure that there's not a ton of repeated
+extensive code to access webelements"""
 import logging
-# Define the default wait factor. I like doing between ~30-45 seconds especially to allow for page loading
 import time
 
 from selenium.common.exceptions import NoSuchElementException
@@ -8,6 +8,7 @@ from selenium.webdriver.common.by import By
 
 from tests import conftest
 
+# Define the default wait factor. I like doing between ~30-45 seconds especially to allow for page loading
 default_wait = 45
 
 
@@ -26,12 +27,14 @@ class DriverInitialization(object):
 
 
 class BaseLocators(DriverInitialization):
-    """Initializes the driver for use on all other pages and defines objects that are on almost every page"""
+    """Initializes the driver for use on all other pages and defines objects that are on almost every page.
+    The following functions automatically search for an element by a given type of locator, with a wait for visibility
+    These methods have 2 different outputs:
+    1) The element itself if it is found, or
+    2) The boolean value of False if it is not found. This is particularly helpful in asserting that an element exists.
 
-    """The following functions automatically search for an element by a given type of locator, with a wait for visibility
-    These methods have 2 different outputs: 1) The element itself if it is found, or 2) The boolean value of False if it is not found.
-    This is particularly helpful in asserting that an element exists.
-    Each function allows for an explicit max wait time to be passed through as some elements may need extra care for loading
+    Each function allows for an explicit max wait time to be passed through as some elements may need extra care for
+    loading
     """
 
     """Single Element Returned"""
@@ -61,6 +64,32 @@ class BaseLocators(DriverInitialization):
         driver = self.driver
         return get_single_element(driver, findby, identifier, wait_time)
 
+    def element_by_xpath_text(self, text_to_find, tag='*', wait_time=default_wait):
+        findby = By.XPATH
+        timeout = conftest.get_timeout_timestamp(wait_time)
+        el = None
+        try:
+            el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+            logging.debug(msg='Using {} to find {} by containing text {}'.format(findby, tag, text_to_find))
+            logging.debug(msg='Does the element exist right now? {}'.format(bool(el)))
+        except NoSuchElementException:
+            while bool(el) is False and time.perf_counter() < timeout:
+                wait_for_seconds(2)
+                logging.debug(msg='Element was not found. Trying to find it again...')
+                wait_for_seconds(2)
+                try:
+                    el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+                    logging.debug(msg='We found the element? {}'.format(bool(el)))
+                    if bool(el):
+                        el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+                        break
+                except NoSuchElementException:
+                    el = False
+                    logging.debug(msg='Waiting for the element...')
+        finally:
+            logging.debug(msg='Element found: {}'.format(bool(el)))
+        return el
+
     """Element Lists / Multiple Elements Returned"""
 
     def elements_by_name(self, identifier, wait_time=default_wait):
@@ -87,6 +116,34 @@ class BaseLocators(DriverInitialization):
         findby = By.ID
         driver = self.driver
         return get_element_list(driver, findby, identifier, wait_time)
+
+    def elements_by_xpath_text(self, text_to_find, tag='*', wait_time=default_wait):
+        findby = By.XPATH
+        timeout = conftest.get_timeout_timestamp(wait_time)
+        el_list = None
+        try:
+            el_list = self.driver.find_elements(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+            logging.debug(msg='Using {} to find {} by containing text {}'.format(findby, tag, text_to_find))
+            logging.debug(msg='Does the element exist right now? {}'.format(bool(el_list)))
+        except NoSuchElementException:
+            while bool(el_list) is False and time.perf_counter() < timeout:
+                wait_for_seconds(2)
+                logging.debug(msg='Element was not found. Trying to find it again...')
+                wait_for_seconds(2)
+                try:
+                    el_list = self.driver.find_elements(findby,
+                                                        './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+                    logging.debug(msg='We found the element? {}'.format(bool(el_list)))
+                    if bool(el_list):
+                        el_list = self.driver.find_elements(findby,
+                                                            './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
+                        break
+                except NoSuchElementException:
+                    el_list = False
+                    logging.debug(msg='Waiting for the element...')
+        finally:
+            logging.debug(msg='Element found: {}'.format(bool(el_list)))
+        return el_list
 
     """Nested Element and Element Lists"""
 
@@ -125,59 +182,8 @@ class BaseLocators(DriverInitialization):
         driver = self.driver
         return get_nested_elements(driver, findby, element, identifier, wait_time)
 
-    def element_by_xpath_text(self, text_to_find, tag='*', wait_time=default_wait):
-        findby = By.XPATH
-        timeout = conftest.get_timeout_timestamp(wait_time)
-        el = None
-        try:
-            el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-            logging.debug(msg='Using {} to find {} by containing text {}'.format(findby, tag, text_to_find))
-            logging.debug(msg='Does the element exist right now? {}'.format(bool(el)))
-        except NoSuchElementException:
-            while bool(el) is False and time.perf_counter() < timeout:
-                wait_for_seconds(2)
-                logging.debug(msg='Element was not found. Trying to find it again...')
-                wait_for_seconds(2)
-                try:
-                    el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-                    logging.debug(msg='We found the element? {}'.format(bool(el)))
-                    if bool(el):
-                        el = self.driver.find_element(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-                        break
-                except NoSuchElementException:
-                    el = False
-                    logging.debug(msg='Waiting for the element...')
-        finally:
-            logging.debug(msg='Element found: {}'.format(bool(el)))
-        return el
 
-    def elements_by_xpath_text(self, text_to_find, tag='*', wait_time=default_wait):
-        findby = By.XPATH
-        timeout = conftest.get_timeout_timestamp(wait_time)
-        el_list = None
-        try:
-            el_list = self.driver.find_elements(findby, './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-            logging.debug(msg='Using {} to find {} by containing text {}'.format(findby, tag, text_to_find))
-            logging.debug(msg='Does the element exist right now? {}'.format(bool(el_list)))
-        except NoSuchElementException:
-            while bool(el_list) is False and time.perf_counter() < timeout:
-                wait_for_seconds(2)
-                logging.debug(msg='Element was not found. Trying to find it again...')
-                wait_for_seconds(2)
-                try:
-                    el_list = self.driver.find_elements(findby,
-                                                        './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-                    logging.debug(msg='We found the element? {}'.format(bool(el_list)))
-                    if bool(el_list):
-                        el_list = self.driver.find_elements(findby,
-                                                            './/{}[contains(text(),"{}")]'.format(tag, text_to_find))
-                        break
-                except NoSuchElementException:
-                    el_list = False
-                    logging.debug(msg='Waiting for the element...')
-        finally:
-            logging.debug(msg='Element found: {}'.format(bool(el_list)))
-        return el_list
+"""Functions used to handle the driver timeout and exceptions"""
 
 
 def get_single_element(driver, findby, identifier, wait_time=default_wait):

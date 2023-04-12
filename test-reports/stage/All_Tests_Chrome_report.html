@@ -18,197 +18,197 @@ function toArray(iter) {
     return Array.prototype.slice.call(iter);
 }
 
-function find(selector, elem) { // eslint-disable-line no-redeclare
+function find(selector, elem) {
     if (!elem) {
         elem = document;
     }
     return elem.querySelector(selector);
 }
 
-function findAll(selector, elem) {
+function find_all(selector, elem) {
     if (!elem) {
         elem = document;
     }
     return toArray(elem.querySelectorAll(selector));
 }
 
-function sortColumn(elem) {
-    toggleSortStates(elem);
-    const colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
-    let key;
-    if (elem.classList.contains('result')) {
-        key = keyResult;
-    } else if (elem.classList.contains('links')) {
-        key = keyLink;
+function sort_column(elem) {
+    toggle_sort_states(elem);
+    var colIndex = toArray(elem.parentNode.childNodes).indexOf(elem);
+    var key;
+    if (elem.classList.contains('numeric')) {
+        key = key_num;
+    } else if (elem.classList.contains('result')) {
+        key = key_result;
     } else {
-        key = keyAlpha;
+        key = key_alpha;
     }
-    sortTable(elem, key(colIndex));
+    sort_table(elem, key(colIndex));
 }
 
-function showAllExtras() { // eslint-disable-line no-unused-vars
-    findAll('.col-result').forEach(showExtras);
+function show_all_extras() {
+    find_all('.col-result').forEach(show_extras);
 }
 
-function hideAllExtras() { // eslint-disable-line no-unused-vars
-    findAll('.col-result').forEach(hideExtras);
+function hide_all_extras() {
+    find_all('.col-result').forEach(hide_extras);
 }
 
-function showExtras(colresultElem) {
-    const extras = colresultElem.parentNode.nextElementSibling;
-    const expandcollapse = colresultElem.firstElementChild;
-    extras.classList.remove('collapsed');
-    expandcollapse.classList.remove('expander');
-    expandcollapse.classList.add('collapser');
+function show_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.remove("collapsed");
+    expandcollapse.classList.remove("expander");
+    expandcollapse.classList.add("collapser");
 }
 
-function hideExtras(colresultElem) {
-    const extras = colresultElem.parentNode.nextElementSibling;
-    const expandcollapse = colresultElem.firstElementChild;
-    extras.classList.add('collapsed');
-    expandcollapse.classList.remove('collapser');
-    expandcollapse.classList.add('expander');
+function hide_extras(colresult_elem) {
+    var extras = colresult_elem.parentNode.nextElementSibling;
+    var expandcollapse = colresult_elem.firstElementChild;
+    extras.classList.add("collapsed");
+    expandcollapse.classList.remove("collapser");
+    expandcollapse.classList.add("expander");
 }
 
-function showFilters() {
-    const filterItems = document.getElementsByClassName('filter');
-    for (let i = 0; i < filterItems.length; i++)
-        filterItems[i].hidden = false;
+function show_filters() {
+    var filter_items = document.getElementsByClassName('filter');
+    for (var i = 0; i < filter_items.length; i++)
+        filter_items[i].hidden = false;
 }
 
-function addCollapse() {
+function add_collapse() {
     // Add links for show/hide all
-    const resulttable = find('table#results-table');
-    const showhideall = document.createElement('p');
-    showhideall.innerHTML = '<a href="javascript:showAllExtras()">Show all details</a> / ' +
-                            '<a href="javascript:hideAllExtras()">Hide all details</a>';
+    var resulttable = find('table#results-table');
+    var showhideall = document.createElement("p");
+    showhideall.innerHTML = '<a href="javascript:show_all_extras()">Show all details</a> / ' +
+                            '<a href="javascript:hide_all_extras()">Hide all details</a>';
     resulttable.parentElement.insertBefore(showhideall, resulttable);
 
     // Add show/hide link to each result
-    findAll('.col-result').forEach(function(elem) {
-        const collapsed = getQueryParameter('collapsed') || 'Passed';
-        const extras = elem.parentNode.nextElementSibling;
-        const expandcollapse = document.createElement('span');
-        if (extras.classList.contains('collapsed')) {
-            expandcollapse.classList.add('expander');
+    find_all('.col-result').forEach(function(elem) {
+        var collapsed = get_query_parameter('collapsed') || 'Passed';
+        var extras = elem.parentNode.nextElementSibling;
+        var expandcollapse = document.createElement("span");
+        if (extras.classList.contains("collapsed")) {
+            expandcollapse.classList.add("expander")
         } else if (collapsed.includes(elem.innerHTML)) {
-            extras.classList.add('collapsed');
-            expandcollapse.classList.add('expander');
+            extras.classList.add("collapsed");
+            expandcollapse.classList.add("expander");
         } else {
-            expandcollapse.classList.add('collapser');
+            expandcollapse.classList.add("collapser");
         }
         elem.appendChild(expandcollapse);
 
-        elem.addEventListener('click', function(event) {
-            if (event.currentTarget.parentNode.nextElementSibling.classList.contains('collapsed')) {
-                showExtras(event.currentTarget);
+        elem.addEventListener("click", function(event) {
+            if (event.currentTarget.parentNode.nextElementSibling.classList.contains("collapsed")) {
+                show_extras(event.currentTarget);
             } else {
-                hideExtras(event.currentTarget);
+                hide_extras(event.currentTarget);
             }
         });
-    });
+    })
 }
 
-function getQueryParameter(name) {
-    const match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+function get_query_parameter(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
     return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
 }
 
-function init () { // eslint-disable-line no-unused-vars
-    resetSortHeaders();
+function init () {
+    reset_sort_headers();
 
-    addCollapse();
+    add_collapse();
 
-    showFilters();
+    show_filters();
 
-    sortColumn(find('.initial-sort'));
+    sort_column(find('.initial-sort'));
 
-    findAll('.sortable').forEach(function(elem) {
-        elem.addEventListener('click',
-            function() {
-                sortColumn(elem);
-            }, false);
+    find_all('.sortable').forEach(function(elem) {
+        elem.addEventListener("click",
+                              function(event) {
+                                  sort_column(elem);
+                              }, false)
     });
-}
 
-function sortTable(clicked, keyFunc) {
-    const rows = findAll('.results-table-row');
-    const reversed = !clicked.classList.contains('asc');
-    const sortedRows = sort(rows, keyFunc, reversed);
+};
+
+function sort_table(clicked, key_func) {
+    var rows = find_all('.results-table-row');
+    var reversed = !clicked.classList.contains('asc');
+    var sorted_rows = sort(rows, key_func, reversed);
     /* Whole table is removed here because browsers acts much slower
      * when appending existing elements.
      */
-    const thead = document.getElementById('results-table-head');
+    var thead = document.getElementById("results-table-head");
     document.getElementById('results-table').remove();
-    const parent = document.createElement('table');
-    parent.id = 'results-table';
+    var parent = document.createElement("table");
+    parent.id = "results-table";
     parent.appendChild(thead);
-    sortedRows.forEach(function(elem) {
+    sorted_rows.forEach(function(elem) {
         parent.appendChild(elem);
     });
-    document.getElementsByTagName('BODY')[0].appendChild(parent);
+    document.getElementsByTagName("BODY")[0].appendChild(parent);
 }
 
-function sort(items, keyFunc, reversed) {
-    const sortArray = items.map(function(item, i) {
-        return [keyFunc(item), i];
+function sort(items, key_func, reversed) {
+    var sort_array = items.map(function(item, i) {
+        return [key_func(item), i];
     });
 
-    sortArray.sort(function(a, b) {
-        const keyA = a[0];
-        const keyB = b[0];
+    sort_array.sort(function(a, b) {
+        var key_a = a[0];
+        var key_b = b[0];
 
-        if (keyA == keyB) return 0;
+        if (key_a == key_b) return 0;
 
         if (reversed) {
-            return keyA < keyB ? 1 : -1;
+            return (key_a < key_b ? 1 : -1);
         } else {
-            return keyA > keyB ? 1 : -1;
+            return (key_a > key_b ? 1 : -1);
         }
     });
 
-    return sortArray.map(function(item) {
-        const index = item[1];
+    return sort_array.map(function(item) {
+        var index = item[1];
         return items[index];
     });
 }
 
-function keyAlpha(colIndex) {
+function key_alpha(col_index) {
     return function(elem) {
-        return elem.childNodes[1].childNodes[colIndex].firstChild.data.toLowerCase();
+        return elem.childNodes[1].childNodes[col_index].firstChild.data.toLowerCase();
     };
 }
 
-function keyLink(colIndex) {
+function key_num(col_index) {
     return function(elem) {
-        const dataCell = elem.childNodes[1].childNodes[colIndex].firstChild;
-        return dataCell == null ? '' : dataCell.innerText.toLowerCase();
+        return parseFloat(elem.childNodes[1].childNodes[col_index].firstChild.data);
     };
 }
 
-function keyResult(colIndex) {
+function key_result(col_index) {
     return function(elem) {
-        const strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
-            'Skipped', 'Passed'];
-        return strings.indexOf(elem.childNodes[1].childNodes[colIndex].firstChild.data);
+        var strings = ['Error', 'Failed', 'Rerun', 'XFailed', 'XPassed',
+                       'Skipped', 'Passed'];
+        return strings.indexOf(elem.childNodes[1].childNodes[col_index].firstChild.data);
     };
 }
 
-function resetSortHeaders() {
-    findAll('.sort-icon').forEach(function(elem) {
+function reset_sort_headers() {
+    find_all('.sort-icon').forEach(function(elem) {
         elem.parentNode.removeChild(elem);
     });
-    findAll('.sortable').forEach(function(elem) {
-        const icon = document.createElement('div');
-        icon.className = 'sort-icon';
-        icon.textContent = 'vvv';
+    find_all('.sortable').forEach(function(elem) {
+        var icon = document.createElement("div");
+        icon.className = "sort-icon";
+        icon.textContent = "vvv";
         elem.insertBefore(icon, elem.firstChild);
-        elem.classList.remove('desc', 'active');
-        elem.classList.add('asc', 'inactive');
+        elem.classList.remove("desc", "active");
+        elem.classList.add("asc", "inactive");
     });
 }
 
-function toggleSortStates(elem) {
+function toggle_sort_states(elem) {
     //if active, toggle between asc and desc
     if (elem.classList.contains('active')) {
         elem.classList.toggle('asc');
@@ -217,92 +217,90 @@ function toggleSortStates(elem) {
 
     //if inactive, reset all other functions and add ascending active
     if (elem.classList.contains('inactive')) {
-        resetSortHeaders();
+        reset_sort_headers();
         elem.classList.remove('inactive');
         elem.classList.add('active');
     }
 }
 
-function isAllRowsHidden(value) {
-    return value.hidden == false;
+function is_all_rows_hidden(value) {
+  return value.hidden == false;
 }
 
-function filterTable(elem) { // eslint-disable-line no-unused-vars
-    const outcomeAtt = 'data-test-result';
-    const outcome = elem.getAttribute(outcomeAtt);
-    const classOutcome = outcome + ' results-table-row';
-    const outcomeRows = document.getElementsByClassName(classOutcome);
+function filter_table(elem) {
+    var outcome_att = "data-test-result";
+    var outcome = elem.getAttribute(outcome_att);
+    class_outcome = outcome + " results-table-row";
+    var outcome_rows = document.getElementsByClassName(class_outcome);
 
-    for(let i = 0; i < outcomeRows.length; i++){
-        outcomeRows[i].hidden = !elem.checked;
+    for(var i = 0; i < outcome_rows.length; i++){
+        outcome_rows[i].hidden = !elem.checked;
     }
 
-    const rows = findAll('.results-table-row').filter(isAllRowsHidden);
-    const allRowsHidden = rows.length == 0 ? true : false;
-    const notFoundMessage = document.getElementById('not-found-message');
-    notFoundMessage.hidden = !allRowsHidden;
+    var rows = find_all('.results-table-row').filter(is_all_rows_hidden);
+    var all_rows_hidden = rows.length == 0 ? true : false;
+    var not_found_message = document.getElementById("not-found-message");
+    not_found_message.hidden = !all_rows_hidden;
 }
 
 </script>
 <h1>All_Tests_Chrome_report.html</h1>
-<p>Report generated on 24-Oct-2022 at 12:56:00 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
-    v3.1.1</p>
+<p>Report generated on 12-Apr-2023 at 09:53:03 by <a href="https://pypi.python.org/pypi/pytest-html">pytest-html</a>
+    v3.2.0</p>
 <h2>Environment</h2>
 <table id="environment">
     <tr>
         <td>Packages</td>
-        <td>{"pluggy": "1.0.0", "py": "1.11.0", "pytest": "7.1.2"}</td>
+        <td>{"pluggy": "1.0.0", "pytest": "7.2.2"}</td>
     </tr>
     <tr>
         <td>Platform</td>
-        <td>macOS-12.6-x86_64-i386-64bit</td>
+        <td>macOS-13.2.1-x86_64-i386-64bit</td>
     </tr>
     <tr>
         <td>Plugins</td>
-        <td>{"cov": "3.0.0", "forked": "1.4.0", "html-lee": "0.0.1", "metadata": "2.0.2", "rerunfailures": "10.2",
-            "timeout": "2.1.0", "xdist": "2.5.0"}
-        </td>
+        <td>{"cov": "4.0.0", "html-lee": "0.0.1", "metadata": "2.0.4", "rerunfailures": "11.1.2"}</td>
     </tr>
     <tr>
         <td>Python</td>
-        <td>3.10.8</td>
+        <td>3.11.2</td>
     </tr>
 </table>
 <h2>Summary</h2>
-<p>7 tests ran in 6.66 seconds. </p>
+<p>7 tests ran in 9.47 seconds. </p>
 <p class="filter" hidden="true">(Un)check the boxes to filter the results.</p><input checked="true" class="filter"
                                                                                      data-test-result="passed"
                                                                                      hidden="true"
                                                                                      name="filter_checkbox"
-                                                                                     onChange="filterTable(this)"
+                                                                                     onChange="filter_table(this)"
                                                                                      type="checkbox"/><span
         class="passed">7 passed</span>, <input checked="true" class="filter" data-test-result="skipped" disabled="true"
-                                               hidden="true" name="filter_checkbox" onChange="filterTable(this)"
+                                               hidden="true" name="filter_checkbox" onChange="filter_table(this)"
                                                type="checkbox"/><span class="skipped">0 skipped</span>, <input
         checked="true" class="filter" data-test-result="failed" disabled="true" hidden="true" name="filter_checkbox"
-        onChange="filterTable(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true"
-                                                                                                   class="filter"
-                                                                                                   data-test-result="error"
-                                                                                                   disabled="true"
-                                                                                                   hidden="true"
-                                                                                                   name="filter_checkbox"
-                                                                                                   onChange="filterTable(this)"
-                                                                                                   type="checkbox"/><span
+        onChange="filter_table(this)" type="checkbox"/><span class="failed">0 failed</span>, <input checked="true"
+                                                                                                    class="filter"
+                                                                                                    data-test-result="error"
+                                                                                                    disabled="true"
+                                                                                                    hidden="true"
+                                                                                                    name="filter_checkbox"
+                                                                                                    onChange="filter_table(this)"
+                                                                                                    type="checkbox"/><span
         class="error">0 errors</span>, <input checked="true" class="filter" data-test-result="xfailed" disabled="true"
-                                              hidden="true" name="filter_checkbox" onChange="filterTable(this)"
+                                              hidden="true" name="filter_checkbox" onChange="filter_table(this)"
                                               type="checkbox"/><span class="xfailed">0 expected failures</span>, <input
         checked="true" class="filter" data-test-result="xpassed" disabled="true" hidden="true" name="filter_checkbox"
-        onChange="filterTable(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>, <input
+        onChange="filter_table(this)" type="checkbox"/><span class="xpassed">0 unexpected passes</span>, <input
         checked="true" class="filter" data-test-result="rerun" disabled="true" hidden="true" name="filter_checkbox"
-        onChange="filterTable(this)" type="checkbox"/><span class="rerun">0 rerun</span>
+        onChange="filter_table(this)" type="checkbox"/><span class="rerun">0 rerun</span>
 <h2>Results</h2>
 <table id="results-table">
     <thead id="results-table-head">
     <tr>
         <th class="sortable result initial-sort" col="result">Result</th>
         <th class="sortable" col="name">Test</th>
-        <th class="sortable" col="duration">Duration</th>
-        <th class="sortable links" col="links">Links</th>
+        <th class="sortable numeric" col="duration">Duration</th>
+        <th>Links</th>
     </tr>
     <tr hidden="true" id="not-found-message">
         <th colspan="4">No results found. Try to check the filters</th>
@@ -351,7 +349,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
     <tr>
         <td class="col-result">Passed</td>
         <td class="col-name">tests/test_code_coverage.py::TestAmountMethods::test_random_string_gen</td>
-        <td class="col-duration">0.44</td>
+        <td class="col-duration">0.34</td>
         <td class="col-links"></td>
     </tr>
     <tr>
@@ -391,7 +389,7 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
         <td class="col-result">Passed</td>
         <td class="col-name">tests/web_ui/google_search_example/test_search.py::test_search_google[stage-chrome-true]
         </td>
-        <td class="col-duration">6.04</td>
+        <td class="col-duration">8.97</td>
         <td class="col-links"></td>
     </tr>
     <tr>
@@ -399,84 +397,94 @@ function filterTable(elem) { // eslint-disable-line no-unused-vars
             <div class="log"> ------------------------------Captured stdout call------------------------------ <br/>There
                 are 9 results found.
                 This result says: at the ends of the world | lloyd miller with ian camp and ...
-                https://fountainavm.bandcamp.com › album › at-the-en...
-                nov 6, 2020 — at the ends of the world by lloyd miller with ian camp and adam michael terry, released 06
-                november 2020 1. a new clear vision 2.
-                $10.00
-                This result says: lloyd miller, ian camp, adam michael terry – at the ends of ...
+                bandcamp
+                https://fountainavm.bandcamp.com › album › at-the-e...
+                at the ends of the world by lloyd miller with ian camp and adam michael terry, released 06 november 2020
+                1. a new clear vision 2. the summoning (ode to oud) ...
+                $10.00 · free delivery · 12-day returns
+                This result says: at the ends of the world
+                fountainavm
+                https://fountainavm.com › at-the-ends-of-the-world
+                lloyd miller received a doctorate in middle east studies: persian, concentrating on persian music with a
+                minor in music (jazz.) in 1970 miller was awarded a ...
+                This result says: lloyd miller, ian camp, adam michael terry – at the ends ...
+                discogs
                 https://www.discogs.com › release › 16167034-lloyd-...
                 jan 1, 2021 — lloyd miller, ian camp, adam michael terry – at the ends of the world ; released: 2020 ;
                 genre: jazz, folk, world, &amp; country ; style: contemporary ...
                 genre: jazz, folk, world, &amp; country
-                format: vinyl, lp
                 style: contemporary jazz, avant-garde jazz
+                format: vinyl, lp
                 released: 2020
-                rating: 4.8 · 6 votes · starting from $20.00
-                This result says: at the ends of the world - fountainavm
-                https://fountainavm.com › at-the-ends-of-the-world
-                lloyd miller received a doctorate in middle east studies: persian, concentrating on persian music with a
-                minor in music (jazz.) in 1970 miller was awarded a ...
-                This result says: at the ends of the world - album by lloyd miller ... - spotify
+                rating: 4.9 · 8 votes · $20.00 to $164.84 · $2.98 delivery
+                This result says: at the ends of the world by lloyd miller, adam michael ...
+                amazon.com
+                https://www.amazon.com › world-michael-terry-llo...
+                at the ends of the world ; 1. a new clear vision. 01:17 ; 2. the summoning (ode to oud). 08:11 ; 3.
+                dystopia wind dance. 06:51 ; 4. earthquake of the fallen trumpet.
+                This result says: at the ends of the world - album by lloyd miller
+                spotify.com
                 https://open.spotify.com › album
-                at the ends of the world ; 1. a new clear vision ; 2. the summoning (ode to oud) ; 3. dystopia wind
-                dance ; 4. earthquake of the fallen trumpet ; 5. bassmeant blues ...
-                This result says: lloyd miller&#x27;s &#x27;at the ends of the world&#x27; is a globe ... - popmatters
-                https://www.popmatters.com › lloyd-miller-at-the-ends-...
-                nov 17, 2020 — lloyd miller&#x27;s &#x27;at the ends of the world&#x27; is a globe-hopping spiritual
-                jazz experience ... the latest album from the octogenarian musical polymath ...
+                listen to at the ends of the world on spotify. lloyd miller · album · 2020 · 9 songs. ... 2020 lloyd
+                miller, adam michael terry, ian camp.
                 This result says: at the ends of the world by lloyd miller, adam michael terry ...
-                https://www.amazon.com › world-michael-terry-lloy...
-                check out at the ends of the world by lloyd miller, adam michael terry and ian camp on amazon music.
-                stream ad-free or purchase cd&#x27;s and mp3s now on ...
+                apple
+                https://music.apple.com › album › at-the-ends-of-the-...
+                listen to at the ends of the world by lloyd miller, adam michael terry &amp; ian camp on apple music.
+                stream songs including “a new clear vision”, ...
+                This result says: lloyd miller - at the ends of the world (with ian camp ...
+                bis aufs messer records
+                https://bisaufsmesser.com › products › lloyd-miller-at-...
+                recorded late summer 2019 down in lloyd miller&#x27;s basement, &quot;at the ends of the world&quot; is
+                a prophetic expression of the social and cerebral atmospheres that ...
+                €30.00
                 This result says: lloyd miller with ian camp &amp; adam michael terry
-                https://allnightflightrecords.com › products › lloyd-mill...
+                all night flight records
+                https://allnightflightrecords.com › products › lloyd-mi...
                 now right up to date, &#x27;at the ends of the world&#x27; enlists the support of local musicians ian
                 camp and adam michael terry, laying out an expansive and ...
                 £25.00 · out of stock
-                This result says: by lloyd miller, adam michael terry &amp; ian camp - apple music
-                https://music.apple.com › at-the-ends-of-the-world
-                listen to at the ends of the world by lloyd miller, adam michael terry &amp; ian camp on apple music.
-                stream songs including “a new clear vision”, ...
-                This result says: lloyd miller - at the ends of the world
-                https://worldofechomusic.com › products › lloyd-miller...
-                lloyd miller - at the ends of the world ... into this eighth decade and still rolling, celebrated
-                ethno-musicologist lloyd miller returns with a nine song set ...
-                £25.00 · out of stock
+                This result says: &#x27;at the ends of the world&#x27; by lloyd miller with ian camp ...
+                it&#x27;s psychedelic baby magazine
+                https://www.psychedelicbabymag.com › 2020/11 › at-...
+                nov 6, 2020 — exclusive premiere of two tracks from the &#x27;at the ends of the world&#x27; album by
+                legendary lloyd miller with ian camp and adam michael terry.
                 <br/> -------------------------------Captured log call-------------------------------- <br/>INFO
                 root:BrowserSetup.py:13 The browser we are setting up is: CHROME
-                INFO root:test_search.py:42 Entering search term: Lloyd Miller at the Ends of the World
-                INFO root:test_search.py:46 The results list is: [&#x27;At the Ends of the World | Lloyd Miller with Ian
-                Camp and ...\nhttps://fountainavm.bandcamp.com › album › at-the-en...\nNov 6, 2020 — At the Ends of the
-                World by Lloyd Miller with Ian Camp and Adam Michael Terry, released 06 November 2020 1. A New Clear
-                Vision 2.\n$10.00&#x27;, &#x27;Lloyd Miller, Ian Camp, Adam Michael Terry – At The Ends Of
-                ...\nhttps://www.discogs.com › release › 16167034-Lloyd-...\nJan 1, 2021 — Lloyd Miller, Ian Camp, Adam
-                Michael Terry – At The Ends Of The World ; Released: 2020 ; Genre: Jazz, Folk, World, &amp; Country ;
-                Style: Contemporary ...\nGenre: Jazz, Folk, World, &amp; Country\nFormat: Vinyl, LP\nStyle: Contemporary
-                Jazz, Avant-garde Jazz\nReleased: 2020\nRating: 4.8 · 6 votes · Starting from $20.00&#x27;, &#x27;At the
-                Ends of the World - FOUNTAINavm\nhttps://fountainavm.com › at-the-ends-of-the-world\nLloyd Miller
-                received a doctorate in Middle East Studies: Persian, concentrating on Persian music with a minor in
-                music (jazz.) In 1970 Miller was awarded a ...&#x27;, &#x27;At the Ends of the World - Album by Lloyd
-                Miller ... - Spotify\nhttps://open.spotify.com › album\nAt the Ends of the World ; 1. A New Clear Vision
-                ; 2. The Summoning (Ode to Oud) ; 3. Dystopia Wind Dance ; 4. Earthquake of the Fallen Trumpet ; 5.
-                Bassmeant Blues ...&#x27;, &quot;Lloyd Miller&#x27;s &#x27;At the Ends of the World&#x27; Is a Globe ...
-                - PopMatters\nhttps://www.popmatters.com › lloyd-miller-at-the-ends-...\nNov 17, 2020 — Lloyd Miller&#x27;s
-                &#x27;At the Ends of the World&#x27; Is a Globe-hopping Spiritual Jazz Experience ... The latest album
-                from the octogenarian musical polymath ...&quot;, &quot;At the Ends of the World by Lloyd Miller, Adam
-                Michael Terry ...\nhttps://www.amazon.com › World-Michael-Terry-Lloy...\nCheck out At the Ends of the
-                World by Lloyd Miller, Adam Michael Terry and Ian Camp on Amazon Music. Stream ad-free or purchase CD&#x27;s
-                and MP3s now on ...&quot;, &quot;Lloyd Miller with Ian Camp &amp; Adam Michael
-                Terry\nhttps://allnightflightrecords.com › products › lloyd-mill...\nNow right up to date, &#x27;At The
+                INFO root:test_search.py:49 Entering search term: Lloyd Miller at the Ends of the World
+                INFO root:test_search.py:53 The results list is: [&#x27;At the Ends of the World | Lloyd Miller with Ian
+                Camp and ...\nBandcamp\nhttps://fountainavm.bandcamp.com › album › at-the-e...\nAt the Ends of the World
+                by Lloyd Miller with Ian Camp and Adam Michael Terry, released 06 November 2020 1. A New Clear Vision 2.
+                The Summoning (Ode to Oud) ...\n$10.00 · Free delivery · 12-day returns&#x27;, &#x27;At the Ends of the
+                World\nFOUNTAINavm\nhttps://fountainavm.com › at-the-ends-of-the-world\nLloyd Miller received a
+                doctorate in Middle East Studies: Persian, concentrating on Persian music with a minor in music (jazz.)
+                In 1970 Miller was awarded a ...&#x27;, &#x27;Lloyd Miller, Ian Camp, Adam Michael Terry – At The Ends
+                ...\nDiscogs\nhttps://www.discogs.com › release › 16167034-Lloyd-...\nJan 1, 2021 — Lloyd Miller, Ian
+                Camp, Adam Michael Terry – At The Ends Of The World ; Released: 2020 ; Genre: Jazz, Folk, World, &amp;
+                Country ; Style: Contemporary ...\nGenre: Jazz, Folk, World, &amp; Country\nStyle: Contemporary Jazz,
+                Avant-garde Jazz\nFormat: Vinyl, LP\nReleased: 2020\nRating: 4.9 · 8 votes · $20.00 to $164.84 · $2.98
+                delivery&#x27;, &#x27;At the Ends of the World by Lloyd Miller, Adam Michael
+                ...\nAmazon.com\nhttps://www.amazon.com › World-Michael-Terry-Llo...\nAt the Ends of the World ; 1. A
+                New Clear Vision. 01:17 ; 2. The Summoning (Ode to Oud). 08:11 ; 3. Dystopia Wind Dance. 06:51 ; 4.
+                Earthquake of the Fallen Trumpet.&#x27;, &#x27;At the Ends of the World - Album by Lloyd
+                Miller\nspotify.com\nhttps://open.spotify.com › album\nListen to At the Ends of the World on Spotify.
+                Lloyd Miller · Album · 2020 · 9 songs. ... 2020 Lloyd Miller, Adam Michael Terry, Ian Camp.&#x27;,
+                &#x27;At the Ends of the World by Lloyd Miller, Adam Michael Terry ...\nApple\nhttps://music.apple.com ›
+                album › at-the-ends-of-the-...\nListen to At the Ends of the World by Lloyd Miller, Adam Michael Terry
+                &amp; Ian Camp on Apple Music. Stream songs including “A New Clear Vision”, ...&#x27;, &#x27;LLOYD
+                MILLER - At the Ends of the World (with Ian Camp ...\nBis Aufs Messer Records\nhttps://bisaufsmesser.com
+                › products › lloyd-miller-at-...\nRecorded late summer 2019 down in Lloyd Miller\&#x27;s basement,
+                &quot;At the Ends of the World&quot; is a prophetic expression of the social and cerebral atmospheres
+                that ...\n€30.00&#x27;, &quot;Lloyd Miller with Ian Camp &amp; Adam Michael Terry\nAll Night Flight
+                Records\nhttps://allnightflightrecords.com › products › lloyd-mi...\nNow right up to date, &#x27;At The
                 Ends Of The World&#x27; enlists the support of local musicians Ian Camp and Adam Michael Terry, laying
-                out an expansive and ...\n£25.00 · Out of stock&quot;, &#x27;by Lloyd Miller, Adam Michael Terry &amp;
-                Ian Camp - Apple Music\nhttps://music.apple.com › at-the-ends-of-the-world\nListen to At the Ends of the
-                World by Lloyd Miller, Adam Michael Terry &amp; Ian Camp on Apple Music. Stream songs including “A New
-                Clear Vision”, ...&#x27;, &#x27;Lloyd Miller - At the Ends of the World\nhttps://worldofechomusic.com ›
-                products › lloyd-miller...\nLloyd Miller - At the Ends of the World ... Into this eighth decade and
-                still rolling, celebrated ethno-musicologist Lloyd Miller returns with a nine song set ...\n£25.00 · Out
-                of stock&#x27;]
-                INFO root:example_pages.py:105 Failures if any: None
-                INFO root:example_pages.py:113 PASSED
-                INFO root:example_pages.py:128 Shutting down the driver...<br/></div>
+                out an expansive and ...\n£25.00 · Out of stock&quot;, &quot;&#x27;At the Ends of the World&#x27; by
+                Lloyd Miller with Ian Camp ...\nIt&#x27;s Psychedelic Baby Magazine\nhttps://www.psychedelicbabymag.com
+                › 2020/11 › at-...\nNov 6, 2020 — Exclusive premiere of two tracks from the &#x27;At the Ends of the
+                World&#x27; album by legendary Lloyd Miller with Ian Camp and Adam Michael Terry.&quot;]
+                INFO root:example_pages.py:158 Failures if any: None
+                INFO root:example_pages.py:166 PASSED
+                INFO root:example_pages.py:181 Shutting down the driver...<br/></div>
         </td>
     </tr>
     </tbody>

@@ -14,7 +14,6 @@ XlsxWriter
 flake8
 requests
 pytest-cov
-metabase-api
 google-api-python-client
 python-gflags
 httplib2
